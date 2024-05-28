@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "50e430b0-cecd-4a7a-a1cf-bba83cf37757",
+		"name": "Simyo_Bundle",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2291600"
+	},
+	"item": [
+		{
+			"name": "https://appapi.simyo.nl/webapi/api/v1/sessions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response JSON",
+							"const responseJson = pm.response.json();",
+							"",
+							"// Extract the session token from the response",
+							"const sessionToken = responseJson.result.sessionToken;",
+							"",
+							"// Store the session token in an environment variable",
+							"pm.environment.set(\"sessionToken\", sessionToken);",
+							"",
+							"// Test for successful response (status code 200)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Check if the response contains a result object",
+							"pm.test(\"Response contains a result object\", function () {",
+							"    pm.expect(responseJson.result).to.exist; // Check if result object exists",
+							"    pm.expect(responseJson.result).to.be.an(\"object\"); // Ensure result is an object",
+							"});",
+							"",
+							"// Check if the contract status is active",
+							"pm.test(\"Contract status is active\", function () {",
+							"    pm.expect(responseJson.result.contractStatus).to.equal(\"active\"); // Check contract status",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "host",
+						"value": "appapi.simyo.nl"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\""
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "X-Client-Token",
+						"value": "e77b7e2f43db41bb95b17a2a11581a38"
+					},
+					{
+						"key": "X-Client-Version",
+						"value": "9.0.0"
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "X-Client-Platform",
+						"value": "mijn"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"phoneNumber\":\"0683570897\",\"password\":\"1234\"}"
+				},
+				"url": {
+					"raw": "https://appapi.simyo.nl/webapi/api/v1/sessions",
+					"protocol": "https",
+					"host": [
+						"appapi",
+						"simyo",
+						"nl"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://appapi.simyo.nl/webapi/api/v1/subscription/postpaid/topup",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Get the stored session token from the environment variable",
+							"const sessionToken = pm.environment.get(\"sessionToken\");",
+							"",
+							"// Set the Authorization header with the session token",
+							"pm.request.headers.add({",
+							"    key: 'Authorization',",
+							"    value: `Bearer ${sessionToken}`",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Check if the request method is PUT",
+							"if (pm.request.method === 'PUT') {",
+							"    // Test for successful response (status code 200)",
+							"    pm.test(\"Status code is 200\", function () {",
+							"        pm.response.to.have.status(200);",
+							"    });",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "host",
+						"value": "appapi.simyo.nl"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\""
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "X-Client-Token",
+						"value": "e77b7e2f43db41bb95b17a2a11581a38"
+					},
+					{
+						"key": "X-Session-Token",
+						"value": "142b894a-c4c4-7fe4-9919-cf6b7c225a69"
+					},
+					{
+						"key": "X-Client-Version",
+						"value": "9.0.0"
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "X-Client-Platform",
+						"value": "mijn"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"bundleId\":\"201505200829345604\"}"
+				},
+				"url": {
+					"raw": "https://appapi.simyo.nl/webapi/api/v1/subscription/postpaid/topup",
+					"protocol": "https",
+					"host": [
+						"appapi",
+						"simyo",
+						"nl"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"subscription",
+						"postpaid",
+						"topup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
