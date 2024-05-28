@@ -1,1 +1,0 @@
-# KPN_test_opdracht_Kuchmasova
